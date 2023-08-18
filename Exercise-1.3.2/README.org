@@ -1,100 +1,109 @@
+# -*- org-image-actual-width: nil; -*-
+
 * Exercise 1.3.2
 
 I have a 60% keyboard which has 61 keys on it.  I'd like to keep track of which keys are pressed using a 64 bit unsigned int.  It looks like this:
 
-[[images/kb_paradise_v60_r_polestar_backlit_mx_keyboard_large_1.jpg]]
+#+ATTR_ORG: :width 300px
+[[images/kb-paradise-v60-r-polestar-backlit-mx-keyboard-large-1.jpg]]
 
 The following methods should be available in the class:
 
 #+begin_src c++
   // Set a key to 'pressed.'
-  void set(ull key);
+  void set(uint8_t key);
   // Set a key to 'released.'
-  void unSet(ull key);
+  void unSet(uint8_t key);
   // Return if the given key is pressed or not.
-  bool getIsSet(ull key);
+  bool getIsSet(uint8_t key);
+  // Return true if *any* key is pressed.
+  bool getAnySet();
   // Return if any alpha numeric key is set.
   bool isAlphaSet();
   // Return if any non-alpha key is set.
   bool isNonAlphaSet();
   // Return the total number of keys pressed.
-  byte getKeyCount();
-  // Return the number of alpha numeric keys pressed (ie., any key that could print something to the screen.  Including the spacebar, but not enter or tab.)
-  byte getAlphaKeyCount();
-  // Return the number of non-alpha numeric keys pressed
-  byte getNonAlphaKeyCount();
+  uint8_t getKeyCount();
+  // Return the number of alpha numeric keys pressed.
+  uint8_t getAlphaKeyCount();
+  // Return the number of non-alpha numeric keys pressed.
+  uint8_t getNonAlphaKeyCount();
 #+end_src
+
+*Note*:  AlphaNumeric, in this case, additionally refers to other symbols, such as punctuation and math symbols.
 
 The following key defines are given:
 
 #+begin_src c++
-  constexpr ull KEY_ESC = 1<<0;
-  constexpr ull KEY_TAB = 1<<1;
-  constexpr ull KEY_CAPSLOCK = 1<<2;
-  constexpr ull KEY_LSHIFT = 1<<3;
-  constexpr ull KEY_RSHIFT = 1<<4;
-  constexpr ull KEY_LCTRL = 1<<5;
-  constexpr ull KEY_LWIN = 1<<6;
-  constexpr ull KEY_ALT = 1<<7;
-  constexpr ull KEY_RWIN = 1<<8;
-  constexpr ull KEY_ENTER = 1<<9;
-  constexpr ull KEY_BACKSPACE = 1<<10;
-  constexpr ull KEY_SPACE = 1<<11;
+  constexpr uint64_t KEY_ESC = 1<<0;
+  constexpr uint64_t KEY_TAB = 1<<1;
+  constexpr uint64_t KEY_CAPSLOCK = 1<<2;
+  constexpr uint64_t KEY_LSHIFT = 1<<3;
+  constexpr uint64_t KEY_RSHIFT = 1<<4;
+  constexpr uint64_t KEY_LCTRL = 1<<5;
+  constexpr uint64_t KEY_LWIN = 1<<6;
+  constexpr uint64_t KEY_ALT = 1<<7;
+  constexpr uint64_t KEY_RWIN = 1<<8;
+  constexpr uint64_t KEY_ENTER = 1<<9;
+  constexpr uint64_t KEY_BACKSPACE = 1<<10;
+  constexpr uint64_t KEY_SPACE = 1<<11;
 
-  constexpr ull KEY_1 = 1<<12;
-  constexpr ull KEY_2 = 1<<13;
-  constexpr ull KEY_3 = 1<<14;
-  constexpr ull KEY_4 = 1<<15;
-  constexpr ull KEY_5 = 1<<16;
-  constexpr ull KEY_6 = 1<<17;
-  constexpr ull KEY_7 = 1<<18;
-  constexpr ull KEY_8 = 1<<19;
-  constexpr ull KEY_9 = 1<<20;
-  constexpr ull KEY_0 = 1<<21;
+  constexpr uint64_t KEY_1 = 1<<12;
+  constexpr uint64_t KEY_2 = 1<<13;
+  constexpr uint64_t KEY_3 = 1<<14;
+  constexpr uint64_t KEY_4 = 1<<15;
+  constexpr uint64_t KEY_5 = 1<<16;
+  constexpr uint64_t KEY_6 = 1<<17;
+  constexpr uint64_t KEY_7 = 1<<18;
+  constexpr uint64_t KEY_8 = 1<<19;
+  constexpr uint64_t KEY_9 = 1<<20;
+  constexpr uint64_t KEY_0 = 1<<21;
 
-  constexpr ull KEY_MINUS = 1<<22;
-  constexpr ull KEY_EQUALS = 1<<23;
-  constexpr ull KEY_LBRACKET = 1<<24;
-  constexpr ull KEY_RBRACKET = 1<<25;
-  constexpr ull KEY_SEMICOLON = 1<<26;
-  constexpr ull KEY_QUOTE = 1<<27;
-  constexpr ull KEY_COMMA = 1<<28;
-  constexpr ull KEY_PERIOD = 1<<29;
-  constexpr ull KEY_SLACK = 1<<30;
-  constexpr ull KEY_BACKSLASH = 1<<31;
+  constexpr uint64_t KEY_MINUS = 1<<22;
+  constexpr uint64_t KEY_EQUALS = 1<<23;
+  constexpr uint64_t KEY_LBRACKET = 1<<24;
+  constexpr uint64_t KEY_RBRACKET = 1<<25;
+  constexpr uint64_t KEY_SEMICOLON = 1<<26;
+  constexpr uint64_t KEY_QUOTE = 1<<27;
+  constexpr uint64_t KEY_COMMA = 1<<28;
+  constexpr uint64_t KEY_PERIOD = 1<<29;
+  constexpr uint64_t KEY_SLACK = 1<<30;
+  constexpr uint64_t KEY_BACKSLASH = 1<<31;
 
-  constexpr ull KEY_A = 1<<32;
-  constexpr ull KEY_B = 1<<33;
-  constexpr ull KEY_C = 1<<34;
-  constexpr ull KEY_D = 1<<35;
-  constexpr ull KEY_E = 1<<36;
-  constexpr ull KEY_F = 1<<37;
-  constexpr ull KEY_G = 1<<38;
-  constexpr ull KEY_H = 1<<39;
-  constexpr ull KEY_I = 1<<40;
-  constexpr ull KEY_J = 1<<41;
-  constexpr ull KEY_K = 1<<42;
-  constexpr ull KEY_L = 1<<43;
-  constexpr ull KEY_M = 1<<44;
-  constexpr ull KEY_N = 1<<45;
-  constexpr ull KEY_O = 1<<46;
-  constexpr ull KEY_P = 1<<47;
-  constexpr ull KEY_Q = 1<<48;
-  constexpr ull KEY_R = 1<<49;
-  constexpr ull KEY_S = 1<<50;
-  constexpr ull KEY_T = 1<<51;
-  constexpr ull KEY_U = 1<<52;
-  constexpr ull KEY_V = 1<<53;
-  constexpr ull KEY_W = 1<<54;
-  constexpr ull KEY_X = 1<<55;
-  constexpr ull KEY_Y = 1<<56;
-  constexpr ull KEY_Z = 1<<57;
+  constexpr uint64_t KEY_A = 1<<32;
+  constexpr uint64_t KEY_B = 1<<33;
+  constexpr uint64_t KEY_C = 1<<34;
+  constexpr uint64_t KEY_D = 1<<35;
+  constexpr uint64_t KEY_E = 1<<36;
+  constexpr uint64_t KEY_F = 1<<37;
+  constexpr uint64_t KEY_G = 1<<38;
+  constexpr uint64_t KEY_H = 1<<39;
+  constexpr uint64_t KEY_I = 1<<40;
+  constexpr uint64_t KEY_J = 1<<41;
+  constexpr uint64_t KEY_K = 1<<42;
+  constexpr uint64_t KEY_L = 1<<43;
+  constexpr uint64_t KEY_M = 1<<44;
+  constexpr uint64_t KEY_N = 1<<45;
+  constexpr uint64_t KEY_O = 1<<46;
+  constexpr uint64_t KEY_P = 1<<47;
+  constexpr uint64_t KEY_Q = 1<<48;
+  constexpr uint64_t KEY_R = 1<<49;
+  constexpr uint64_t KEY_S = 1<<50;
+  constexpr uint64_t KEY_T = 1<<51;
+  constexpr uint64_t KEY_U = 1<<52;
+  constexpr uint64_t KEY_V = 1<<53;
+  constexpr uint64_t KEY_W = 1<<54;
+  constexpr uint64_t KEY_X = 1<<55;
+  constexpr uint64_t KEY_Y = 1<<56;
+  constexpr uint64_t KEY_Z = 1<<57;
 
-  constexpr ull KEY_FN = 1<<58;
-  constexpr ull KEY_RCTRL = 1<<59;
-  constexpr ull KEY_MENU = 1<<60;
+  constexpr uint64_t KEY_FN = 1<<58;
+  constexpr uint64_t KEY_RCTRL = 1<<59;
+  constexpr uint64_t KEY_MENU = 1<<60;
 
-  constexpr ull KEY_RESERVED1 = 1<<61;
-  constexpr ull KEY_RESERVED2 = 1<<62;
-  constexpr ull KEY_RESERVED3 = 1<<63;
+  constexpr uint64_t KEY_RESERVED1 = 1<<61;
+  constexpr uint64_t KEY_RESERVED2 = 1<<62;
+  constexpr uint64_t KEY_RESERVED3 = 1<<63;
 #+end_src
+
+*Note*:  KEY_RESERVED1, KEY_RESERVED2, and KEY_RESERVED3 are reserved for the future and should not be used (those bits should always be 0)
