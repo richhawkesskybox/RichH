@@ -11,11 +11,11 @@ The following methods should be available in the class:
 
 #+begin_src c++
   // Set a key to 'pressed.'
-  void set(uint8_t key);
+  void set(uint64_t key);
   // Set a key to 'released.'
-  void unSet(uint8_t key);
+  void unSet(uint64_t key);
   // Return if the given key is pressed or not.
-  bool getIsSet(uint8_t key);
+  bool getIsSet(uint64_t key);
   // Return true if *any* key is pressed.
   bool getAnySet();
   // Return if any alpha numeric key is set.
@@ -31,6 +31,8 @@ The following methods should be available in the class:
 #+end_src
 
 *Note*:  AlphaNumeric, in this case, additionally refers to other symbols, such as punctuation and math symbols.
+
+A single uing64_t variable should be used to keep track of the keys pressed.
 
 The following key defines are given:
 
